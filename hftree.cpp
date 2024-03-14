@@ -9,19 +9,17 @@ hfTree::hfTree(const std::string &text, const Option op)
             optree->frequecyMap[std::string(1,c)]++;    
         }
     }
-    else{ //构造组合字符树
-        char previous = '\0';
-        for(char c : text){ //先记录组合字符，以便找到权值最大的3个
-            if(previous != '\0'){
-                std::string cc = std::string(1,previous) + c;
-                optree->frequecyMap[cc]++;
+    if(op == Option::MultiChar){ //构造组合字符树
+        for(int i = 0; i < text.length(); i++){
+            if(i + 1 < text.length()){
+                std::string multi = text.substr(i,2);
+                optree->frequecyMap[multi]++;
             }
-            previous = c;
         }
 
-        /*std::string multi1,multi2,multi3;
+        std::string multi1,multi2,multi3;
         int max1,max2,max3;
-        max1 = max2 = max3 = INT_MAX;
+        max1 = max2 = max3 = INT_MIN;
         for(std::pair<std::string,int> p : optree->frequecyMap){ //找到前三个
             if(p.second > max1 || (p.second == max1 && p.first < multi1)){
                 max3 = max2;
@@ -56,9 +54,10 @@ hfTree::hfTree(const std::string &text, const Option op)
             }
             std::string c = text.substr(i,1);
             optree->frequecyMap[c]++;
-        }*/
+        }
 
     }
+
     int size = optree->frequecyMap.size();
     int i = size;
     optree->Length = 2 * size;

@@ -29,13 +29,21 @@ namespace utils
     void output(const std::string &output, const std::string &data)
     {
         // TODO: Your code here
-        std::ofstream ostrm(output);
-        if (!ostrm.is_open()) {
-            std::cerr << "Failed to create file: " << output << std::endl;
-            return;
+        std::string fileEnding = output.substr(output.size() - 3);
+        if(fileEnding == "idx"){
+            std::ofstream ostrm(output);
+            if (!ostrm.is_open()) {
+                std::cerr << "Failed to create file: " << output << std::endl;
+                return;
+            }
+            ostrm << data;
+            ostrm.close();
         }
-        ostrm << data;
-        ostrm.close();
+        else if(fileEnding == "zip"){
+            std::ofstream ostrm(output,std::ios::binary);
+            ostrm.write(data.data(),data.size());
+            ostrm.close();
+        }
     }
 
     std::string codingTable2String(const std::map<std::string, std::string> &codingTable)
@@ -56,7 +64,7 @@ namespace utils
         std::string code;
         std::string::iterator blank,enterNext = table.begin(); //记录空格和换行符位置
         bool isBlank = false;
-        for(std::string::iterator i = table.begin(); i != table.end(); i++){
+        for(std::string::iterator i = table.begin(); i < table.end(); i++){
             if(*i == ' ' && i - enterNext != 0){ //不是挨着的
                 blank = i;
                 isBlank = true;
@@ -76,24 +84,31 @@ namespace utils
         std::string result;
         // TODO: Your code here
         std::string bitString = "";
-        for(std::string::const_iterator it = text.begin(); it != text.end(); it++){
+        for(std::string::const_iterator it = text.begin(); it < text.end(); it++){
             std::string multiChar(1,*it);
-            multiChar.push_back(*(it + 1));
-            auto value = codingTable.find(multiChar);
-            if(value != codingTable.end()){ //双字符查找成功
-                bitString += value->second;
-                it++;
+            if(it + 1 < text.end()){
+                multiChar.push_back(*(it + 1));
+                auto value = codingTable.find(multiChar);
+                if(value != codingTable.end()){ //双字符查找成功
+                    bitString += value->second;
+                    it++;
+                }
             }
+            
             else{ //单字符
-                value = codingTable.find(std::string(1,*it));
-                bitString += value->second;
+                auto value = codingTable.find(std::string(1,*it));
+                if(value != codingTable.end()){
+                    bitString += value->second;
+                }
+                
             }
         }
 
         long length = bitString.length();
 
-        while(bitString.length() % 8 != 0){
-            bitString += '0';
+        if (bitString.length() % 8 != 0) {
+            int padding = 8 - (bitString.length() % 8);
+            bitString += std::string(padding, '0');
         }
 
         for(int i = 0; i < 64; i++){

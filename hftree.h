@@ -34,6 +34,11 @@ public:
     };
     hfTree(const std::string &text, const Option op);
     std::map<std::string, std::string> getCodingTable();
+
+    ~hfTree(){
+        delete [] optree->Tree;
+        delete optree;
+    }
 };
 
 #endif
