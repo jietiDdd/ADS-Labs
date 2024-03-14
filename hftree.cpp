@@ -85,7 +85,7 @@ hfTree::hfTree(const std::string &text, const Option op)
                     x = y;
                     y = j;
                 }
-                else if(optree->Tree[j].weight < min2 || (optree->Tree[j].weight == min1 && (optree->Tree[j].dictionary < optree->Tree[x].dictionary))){ //次小
+                else if(optree->Tree[j].weight < min2 || (optree->Tree[j].weight == min2 && (optree->Tree[j].dictionary < optree->Tree[x].dictionary))){ //次小
                     min2 = optree->Tree[j].weight;
                     x = j;
                 }

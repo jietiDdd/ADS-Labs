@@ -3,6 +3,7 @@
 
 #include <cstring>
 #include <fstream>
+#include <vector>
 
 namespace utils
 {
@@ -40,8 +41,24 @@ namespace utils
             ostrm.close();
         }
         else if(fileEnding == "zip"){
+            std::string byteStream = "";
+            int i = 0;
+            char byte = 0;
+            for(char c : data){
+                i++;
+                if(c == '1'){
+                    byte += 1;
+                }
+                if(i == 8){
+                    i = 0;
+                    byteStream += byte;
+                    byte = 0;
+                    continue;
+                }
+                byte <<= 1;
+            }
             std::ofstream ostrm(output,std::ios::binary);
-            ostrm.write(data.data(),data.size());
+            ostrm.write(byteStream.data(),byteStream.size());
             ostrm.close();
         }
     }
@@ -92,16 +109,14 @@ namespace utils
                 if(value != codingTable.end()){ //双字符查找成功
                     bitString += value->second;
                     it++;
+                    continue;
                 }
             }
             
-            else{ //单字符
-                auto value = codingTable.find(std::string(1,*it));
-                if(value != codingTable.end()){
-                    bitString += value->second;
-                }
-                
-            }
+            auto value = codingTable.find(std::string(1,*it));
+            if(value != codingTable.end()){
+                bitString += value->second;
+            }    
         }
 
         long length = bitString.length();
@@ -111,9 +126,16 @@ namespace utils
             bitString += std::string(padding, '0');
         }
 
+        std::string lengthByte = "";
+
         for(int i = 0; i < 64; i++){
-            result += (length & 1) ? '1' : '0';
+            lengthByte = ((length & 1) ? '1' : '0') + lengthByte;
             length >>= 1;
+
+            if((i + 1) % 8 == 0){
+                result += lengthByte;
+                lengthByte = "";
+            }
         }
 
         result += bitString;
