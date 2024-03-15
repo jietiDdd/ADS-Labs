@@ -42,7 +42,7 @@ namespace utils
         }
         else if(fileEnding == "zip"){
             std::string byteStream = "";
-            int i = 0;
+            uint64_t i = 0;
             char byte = 0;
             for(char c : data){
                 i++;
@@ -119,16 +119,16 @@ namespace utils
             }    
         }
 
-        long length = bitString.length();
+        uint64_t length = bitString.length();
 
         if (bitString.length() % 8 != 0) {
-            int padding = 8 - (bitString.length() % 8);
+            uint64_t padding = 8 - (bitString.length() % 8);
             bitString += std::string(padding, '0');
         }
 
         std::string lengthByte = "";
 
-        for(int i = 0; i < 64; i++){
+        for(uint64_t i = 0; i < 64; i++){
             lengthByte = ((length & 1) ? '1' : '0') + lengthByte;
             length >>= 1;
 

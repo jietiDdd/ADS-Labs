@@ -11,15 +11,15 @@ private:
     // TODO: Your code here
     struct Node{
         std::string data;
-        int weight;
-        int parent,left,right;
+        uint64_t weight;
+        uint64_t parent,left,right;
         std::string dictionary; //存放字典序
     };
 
     struct OpTree{
         Node *Tree;
-        int Length;
-        std::map<std::string,int> frequecyMap; //记录出现频率
+        uint64_t Length;
+        std::map<std::string,uint64_t> frequecyMap; //记录出现频率
     };
 
     OpTree *optree;
