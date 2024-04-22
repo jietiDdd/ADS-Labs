@@ -31,3 +31,17 @@ ifeq ($(OS), Windows_NT)
 else
 	@rm -rf ./*.o ./output/* $(prog)
 endif
+
+myYCSB.o: myYCSB.cpp radix_tree.hpp compressed_radix_tree.hpp rb_tree.hpp util.hpp
+	$(CC) -std=$(STD) -g -c myYCSB.cpp
+
+test: myYCSB.o radix_tree.o compressed_radix_tree.o
+	$(CC) -std=$(STD) -g -o test myYCSB.o radix_tree.o compressed_radix_tree.o
+	./test
+
+ycsb.o: ycsb.cpp util.hpp
+	$(CC) -std=$(STD) -g -c ycsb.cpp
+
+ycsb: ycsb.o
+	$(CC) -std=$(STD) -g -o ycsbtest ycsb.o
+	./ycsbtest

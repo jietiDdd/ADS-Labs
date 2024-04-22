@@ -1,0 +1,40 @@
+这是Lab1的说明文档
+
+*********
+编译与运行
+*********
+
+在运行前，需要编译：
+    powershell> make all
+
+检查基数树和压缩基数树的正确性：
+    powershell> make grade
+
+清除编译后产生的文件：
+    powershell> make clean
+
+运行测试程序myYCSB.cpp:
+    powershell> make test
+
+请不要在vscode上执行测试文件，因为运行时间过长，会发生结果溢出；推荐使用Clion执行，在Clion右上角编辑Makefile test的运行配置，将可执行文件设置为myYCSB.cpp，再点击运行，可以获得正确的测试结果
+
+*********
+文件说明：
+*********
+
+# 为完成实验修改的文件
+
+radix_tree.hpp              基数树头文件
+radix_tree.cpp              基数树实现
+compressed_radix_tree.hpp   压缩基数树头文件
+compressed_radix_tree.cpp   压缩基数树实现
+rb_tree_set.hpp             基于std::set实现的红黑树
+myYCSB.cpp                  YCSB测试代码
+Makefile                    添加了make test功能
+
+# 无关文件
+
+rb_tree.hpp                 说明文档给出的红黑树示例，无法正确测试，故未使用
+ycsb.cpp                    助教提供的测试文件，myYCSB.cpp基于该文件编写
+
+其余文件为实验的原始文件

@@ -1,7 +1,3 @@
-//
-// Created by lenovo on 2024/4/22.
-//
-
 #ifndef LAB1_HANDOUT_RB_TREE_SET_H
 #define LAB1_HANDOUT_RB_TREE_SET_H
 
@@ -9,6 +5,8 @@
 #include <set>
 #include <cstdint>
 
+
+// 基于std::set的红黑树
 class RedBlackTree : public Tree
 {
     std::set<int32_t> rb_tree;
@@ -21,8 +19,12 @@ public:
     }
     bool find(int32_t value){
         auto it = rb_tree.find(value);
-        return it != 
+        return it != rb_tree.end();
     }
+    uint32_t size(){
+        return 0;
+    }
+    uint32_t height(){return 0;}
 };
 
 

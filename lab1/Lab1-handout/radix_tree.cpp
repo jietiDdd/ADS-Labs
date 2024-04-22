@@ -48,10 +48,20 @@ void RadixTree::remove(int32_t value)
         tmp = p;
         if(p->childrenNumber == 0){ // 没有孩子，删除
             p = p->parent;
+            p->childrenNumber--;
+            for(int i = 0; i < 4; i++){
+                if(p->children[i] == tmp){
+                    p->children[i] = NULL;
+                    break;
+                }
+            }
             delete tmp;
+            sizeNumber--;
         }
         else return;
     }
+    if(sizeNumber == 1) heightNumber = 1;
+    else heightNumber = 17;
 }
 
 bool RadixTree::find(int32_t value)
