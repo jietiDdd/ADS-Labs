@@ -40,7 +40,7 @@ int main() {
         hnsw.insert(base + base_vec_dim * i, i);
 
         // 每插入1000个报告一次单次插入时延
-        if(i % report_every == 0){
+        if((i + 1) % report_every == 0){
             single_insert_time = insert_record.get_elapsed_time_micro() / report_every * 1e-3;
             printf("from %d to %d: single insert time %.1f ms\n", i - 999, i, single_insert_time);
             insert_record.reset();
@@ -64,6 +64,7 @@ int main() {
     // 并行的查询性能测试
     printf("current querying\n");
     vector<vector<int>> concurrent_test_gnd_l;
+    concurrent_test_gnd_l.resize(gnd_n_vec);
     double concurrent_single_query_time;
     TimeRecord concurrent_query_record;
     vector<std::thread> threads;

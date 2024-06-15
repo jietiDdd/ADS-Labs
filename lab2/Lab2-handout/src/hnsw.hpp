@@ -2,6 +2,7 @@
 #include "base.hpp"
 #include <vector>
 #include <cstring>
+#include <climits>
 
 #include <unordered_map>
 #include <unordered_set>
@@ -221,7 +222,7 @@ namespace HNSWLab {
     */
     std::vector<int> HNSW::concurrent_query(const int *query, int k, int thread_id)
     {
-        int label = - thread_id;
+        int label = - (thread_id + 1);
         // 1. 初始化
         vector[label] = query;
         std::unordered_set<int> newNeighbors;
